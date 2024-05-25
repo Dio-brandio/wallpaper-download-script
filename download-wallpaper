@@ -1,0 +1,29 @@
+#!/bin/bash
+
+wallDir="$HOME/temp/wallpapers"
+maxpage=5
+tagoptions="#authentic\n#anime\n#cyberpunk\n#fantasygirl\n#4k\n#nature\n#digital art"
+tempPath="/home/temp.txt"
+if [ -z "$1" ]; then
+	category="$1"	
+else
+	category="anime"
+fi
+
+
+sortoptions="date_added\nrelevance\nrandom,\nviews\nfavorites\ntoplist"
+sorting=$(echo -e $sortoptions | dmenu  -p "Sort by: " -i)
+
+
+for i in $(seq 1 5)
+do
+ res=$(curl https://wallhaven.cc/api/v1/search?q=$category\&atleast\=1920x1080\&sorting\=$sorting\&page\=$i | jq -r '.data[].path')
+ wget -nc -P $wallDir $res
+done
+
+sxiv -t $wallDir/*
+mv $wallDir $HOME/wallpapers
+
+echo "Downloaded wallpapers"
+
+	 
