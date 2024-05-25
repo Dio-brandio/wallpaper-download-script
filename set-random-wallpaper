@@ -1,0 +1,10 @@
+#!/bin/bash
+
+
+wallDir="/home/sanjay/wallpapers"
+
+wall=$(find "$wallDir" -type f | shuf -n 1)
+echo "$wall"
+wal -i $wall
+xwallpaper --zoom $wall
+zsh
